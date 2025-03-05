@@ -1,0 +1,73 @@
+<p-toolbar [style]="{ height: '100px' }">
+    <div class="p-toolbar-group-start">
+        <img src="assets/icons/icon-72x72.png" alt="logo" />
+    </div>
+    <div class="p-toolbar-group-center">
+        {{ title }}
+    </div>
+    <div class="p-toolbar-group-end">
+        <i class="pi pi-shopping-cart" (click)="op.toggle($event)" style="font-size: 2rem" pBadge [value]="cartItems().length"></i>
+        &nbsp;
+        <p-overlayPanel #op>
+            <p-dataView #dv [value]="cartItems()">
+                <ng-template pTemplate="list" let-products>
+                    @for (product of products; track product) {
+                        <p-card class="block mb-4">
+                            <div class="flex justify-content-between flex-wrap">
+                                <div class="flex flex-column justify-content-between flex-wrap">
+                                    <div class="flex-none flex align-items-center justify-content-start">
+                                        <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+                                    </div>
+                                </div>
+                                <p-divider layout="vertical" />
+                                <div class="flex-none flex align-items-center justify-content-between gap-2">
+                                    <div class="flex">
+                                        <div class="flex-none flex">
+                                            <div class="formgroup-inline">
+                                                <div class="field">
+                                                    <p-inputNumber 
+                                                        [(ngModel)]="product.quantity"
+                                                        (onInput)="onQuantityChange($event)"
+                                                        [showButtons]="true"
+                                                        buttonLayout="horizontal" 
+                                                        spinnerMode="horizontal" 
+                                                        inputId="horizontal"
+                                                        [min]="1"
+                                                        decrementButtonClass="p-button-primary"
+                                                        incrementButtonClass="p-button-primary" 
+                                                        incrementButtonIcon="pi pi-plus" 
+                                                        decrementButtonIcon="pi pi-minus" 
+                                                        inputStyleClass="max-w-3rem"/>
+                                                </div>
+                                            </div>
+                                            <p-button 
+                                                (onClick)="removeFromCart(product)"
+                                                icon="pi pi-trash"
+                                                class="flex-auto md:flex-initial white-space-nowrap" 
+                                                label="Remove" 
+                                                severity="danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+                    }
+                </ng-template>
+            </p-dataView>
+        </p-overlayPanel>
+    </div>
+</p-toolbar>
+<p-splitter 
+    [panelSizes]="[20, 80]" 
+    [style]="{ height: 'calc(100vh - 100px)' }">
+    <ng-template pTemplate>
+        <div class="w-full">
+            <app-panel-menu />
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="w-full app-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</p-splitter>

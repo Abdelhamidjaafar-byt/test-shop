@@ -1,0 +1,74 @@
+<p-toast key="feedbackMessage"></p-toast>
+<div class="grid">
+    <div class="col-6 col-offset-2">
+        <form [formGroup]="contactFormGroup" (ngSubmit)="submit()">
+            <div class="gird">
+<!--                 form value: {{ contactFormGroup.value | json }} <br />
+                email errors: {{contactFormGroup.controls.email.errors | json}} <br />
+                message errors: {{contactFormGroup.controls.message.errors | json}} -->
+                <div class="col-12">
+                    <p-card [header]="'Contact Form'">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="col-12 md:col-12">
+                                <div class="p-fluid p-formgrid grid">
+                                    <div class="field col-12 md:col-12">
+                                        <p-floatLabel>
+                                            <input type="email" pInputText id="email" formControlName="email"/>
+                                            <label for="email">Email:</label>
+                                        </p-floatLabel>
+                                        @if (contactFormGroup.controls.email.invalid 
+                                            && (contactFormGroup.controls.email.touched || contactFormGroup.controls.email.dirty)) 
+                                        {
+                                            @if (contactFormGroup.controls.email.hasError("required")) {
+                                                <small>*L'email est obligatoire</small>
+                                            }        
+                                            @if (contactFormGroup.controls.email.hasError("email")) {
+                                                <small>*L'email n'est pas valide</small>
+                                            }     
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-12">
+                                <div class="p-fluid p-formgrid grid">
+                                    <div class="field col-12 md:col-12">
+                                        <p-floatLabel>
+                                            <textarea 
+                                                rows="5" 
+                                                cols="30"
+                                                id="message"
+                                                pInputTextarea 
+                                                formControlName="message"
+                                                maxlength="300"
+                                                (input)="updateCharacterCount()"> <!-- Add input event to update counter -->
+                                            </textarea>
+                                            <label for="message">Message:</label>
+                                        </p-floatLabel>
+                                        <!-- Character counter -->
+                                        <small class="character-counter">
+                                            {{ characterCount }}/300 caractères
+                                        </small>
+                                        <!-- Validation messages -->
+                                        @if (contactFormGroup.controls.message.invalid 
+                                            && (contactFormGroup.controls.message.touched || contactFormGroup.controls.message.dirty)) 
+                                        {
+                                            @if (contactFormGroup.controls.message.hasError("required")) {
+                                                <small class="error-message">*Le message est obligatoire</small>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template pTemplate="footer">
+                            <div class="flex flex-wrap gap-2 justify-content-end">
+                                <p-button pRipple label="Envoyer" icon="pi pi-check" [disabled]="!contactFormGroup.dirty || contactFormGroup.invalid" type="submit"></p-button>
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
