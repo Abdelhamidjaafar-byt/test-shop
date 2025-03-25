@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   EventEmitter,
+  inject,
   input,
   Output,
   ViewEncapsulation,
@@ -14,7 +15,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputTextModule } from "primeng/inputtext";
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { ProductsService } from "app/products/data-access/products.service";
 @Component({
   selector: "app-product-form",
   template: `
@@ -75,11 +76,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 })
 export class ProductFormComponent {
   public readonly product = input.required<Product>();
-
   @Output() cancel = new EventEmitter<void>();
   @Output() save = new EventEmitter<Product>();
 
-  public readonly editedProduct = computed(() => ({ ...this.product() }));
+
+  private readonly productsService = inject(ProductsService);
+  public readonly editedProduct = computed(() => {
+    console.log('modifying', this.product())
+    return ({ ...this.product() })
+  });
 
   public readonly categories: SelectItem[] = [
     { value: "Accessories", label: "Accessories" },
@@ -91,6 +96,7 @@ export class ProductFormComponent {
   onCancel() {
     this.cancel.emit();
   }
+    
 
   onSave() {
     this.save.emit(this.editedProduct());

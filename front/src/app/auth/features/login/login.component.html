@@ -1,0 +1,32 @@
+<div class="login-container">
+    <h2>Login</h2>
+    <form>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          [value]="email"
+          (input)="email = $any($event.target).value"
+          required
+          placeholder="Enter your email"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          [value]="password"
+          (input)="password = $any($event.target).value"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+  
+      <!-- Directly bind the click event to onLogin() -->
+      <button type="button" class="btn btn-primary" (click)="onLogin()">Login</button>
+    </form>
+  </div>
+  

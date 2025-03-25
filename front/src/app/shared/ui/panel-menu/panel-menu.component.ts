@@ -1,6 +1,7 @@
 import {
     Component,
   } from "@angular/core";
+import { AuthService } from "app/auth/data-access/auth.service";
 import { MenuItem } from "primeng/api";
   import { PanelMenuModule } from 'primeng/panelmenu';
   
@@ -9,10 +10,12 @@ import { MenuItem } from "primeng/api";
     standalone: true,
     imports: [PanelMenuModule],
     template: `
-        <p-panelMenu [model]="items" styleClass="w-full" />
+        <p-panelMenu [model]="items" styleClass="w-full"/>
     `
   })
   export class PanelMenuComponent {
+
+    constructor(public authService: AuthService) {}
 
     public readonly items: MenuItem[] = [
         {

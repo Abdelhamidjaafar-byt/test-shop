@@ -16,8 +16,9 @@ import { CardModule } from "primeng/card";
 import { DataViewModule } from "primeng/dataview";
 import { DividerModule } from 'primeng/divider';
 import { InputNumberInputEvent, InputNumberModule } from "primeng/inputnumber";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Product } from "./products/data-access/product.model";
+import { AuthService } from "./auth/data-access/auth.service";
 
 @Component({
   selector: "app-root",
@@ -37,7 +38,9 @@ import { Product } from "./products/data-access/product.model";
     ButtonModule, 
     OverlayPanelModule, 
     CommonModule, 
-    PanelMenuComponent
+    PanelMenuComponent,
+    ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class AppComponent {
@@ -45,6 +48,10 @@ export class AppComponent {
   private readonly cartService = inject(CartService);
   public readonly cartItems = this.cartService.cartItems;
   public readonly totalItemsInCart = this.cartService.totalItemsInCart;
+
+  token : string = '';
+
+  constructor(public authService: AuthService) {}
 
   removeFromCart(product: Product) {
     this.cartService.removeFromCart(product).subscribe();
@@ -58,5 +65,9 @@ export class AppComponent {
       console.log(" param: " + quantityChange);
       this.cartService.updateCart(quantityChange);
     }
+  }
+
+  ngOnInit() {
+    this.token = 'Bearer ' + localStorage.getItem('token');
   }
 }

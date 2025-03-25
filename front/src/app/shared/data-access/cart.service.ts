@@ -9,7 +9,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
 export class CartService {
 
   private readonly http = inject(HttpClient);
-  private readonly path = "/api/cartItems";
+  private readonly path = "http://localhost:8080//wishlist";
   
   private readonly _cartItems = signal<Product[]>([]);
   private readonly _totalItemsInCart= signal<number>(0);
